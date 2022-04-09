@@ -15,11 +15,21 @@ competitions["name"].judges.append("judge")
 competitions["name"].judges.append("a guy")
 
 @app.route("/")
-def hello_world():
-    return render_template("student_scores.html", 
-        student_names=list(map(lambda student: student.name, competitions["name"].students)),
-        categories=competitions["name"].categories, judges=competitions["name"].judges
+def index():
+    return render_template("index.html", 
+        competition_names=competitions.keys()
     )
+
+@app.route("/app/<competition_name>", methods=["GET"])
+def main_app(competition_name):
+    return render_template("app.html", 
+        competition_name=competition_name
+    )
+
+@app.route("/app/<competition_name>/judges", methods=["GET"])
+def get_judges(competition_name):
+    judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
+    return render_template("add_judge.html", judge_names=judge_names)
 
 @app.route("/api/competition", methods=["GET"])
 def get_competition():

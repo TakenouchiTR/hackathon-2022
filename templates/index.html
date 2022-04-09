@@ -2,14 +2,17 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        <button type="button">Back</button>
     </head>
     <body>
+        <button type="button">Back</button>
         Please select a competition
         <select name="competition_names" id="competition_names">
            {% for item in competition_names %}
                 <option value = {{item}}>{{item}}</option>
            {% endfor %}
         </select>
+
+        <button onclick="onSelectClick()">Select</button>
+        <p>This is some text</p>
     </body>
 </html>
