@@ -10,12 +10,15 @@ competitions = {"name": Competition("name")}
 competitions["name"].students.append(Student("shoon", "science"))
 competitions["name"].students.append(Student("garrett", "cars"))
 competitions["name"].categories.append("stuff")
+competitions["name"].categories.append("things")
+competitions["name"].judges.append("judge")
+competitions["name"].judges.append("a guy")
 
 @app.route("/")
 def hello_world():
     return render_template("student_scores.html", 
         student_names=list(map(lambda student: student.name, competitions["name"].students)),
-        categories=competitions["name"].categories
+        categories=competitions["name"].categories, judges=competitions["name"].judges
     )
 
 @app.route("/api/competition", methods=["GET"])
