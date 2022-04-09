@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        Please select a competition
+        <select name="competition_names" id="competition_names">
+           {% for item in competition_names %}
+                <option value = {{item}}>{{item}}</option>
+           {% endfor %}
+        </select>
+    </body>
+</html>

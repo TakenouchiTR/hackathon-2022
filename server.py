@@ -8,7 +8,7 @@ competitions = {"name": Competition("name")}
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return render_template("index.html", competition_names=competitions.keys())
 
 @app.route("/api/competition", methods=["GET"])
 def get_competition():
