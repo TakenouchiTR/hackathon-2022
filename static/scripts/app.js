@@ -21,3 +21,8 @@ function onAddStudentClick() {
     competitionName = document.getElementById('competitionName').innerHTML;
     window.location.href = competitionName + "/students";
 }
+
+function onAddCriteriaClick() {
+    competitionName = document.getElementById('competitionName').innerHTML;
+    window.location.href = competitionName + "/criteria";
+}

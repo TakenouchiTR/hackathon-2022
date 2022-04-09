@@ -13,12 +13,12 @@ competitions["ScienceFair"].students.append(Student("Garrett", "cars"))
 competitions["ScienceFair"].categories.append("Originality")
 competitions["ScienceFair"].categories.append("Presentation")
 competitions["ScienceFair"].categories.append("Research")
-competitions["ScienceFair"].judges.append(Judge("Alexander"))
-competitions["ScienceFair"].judges.append(Judge("Alex"))
+competitions["ScienceFair"].judges.append(Judge("Alexander Ayers"))
+competitions["ScienceFair"].judges.append(Judge("Alex D"))
 
 @app.route("/")
 def index():
-    return render_template("judging_page.html", 
+    return render_template("index.html", 
         competition_names=competitions.keys()
     )
 
@@ -54,6 +54,13 @@ def get_students_page(competition_name):
     student_names = list(map(lambda student: student.name, competitions[competition_name].students))
     categories = competitions[competition_name].categories
     return render_template("judging_page.html", judge_names=judge_names, categories=categories, student_names=student_names)
+
+
+@app.route("/app/<competition_name>/criteria", methods=["GET"])
+def get_criteria_page(competition_name):
+    categories = competitions[competition_name].categories
+    return render_template("add_criteria.html", criteria=categories, competition_name=competition_name)
+
 
 @app.route("/api/competition", methods=["GET"])
 def get_competition():
@@ -202,6 +209,7 @@ def get_criteria():
 def add_criteria():
     name = request.get_json()["name"]
     criteria = request.get_json()["criteria"]
+    print(request.get_json())
     if name is None:
         return jsonify({"success_code": 1, "error_message": "name must be provided."})
     if criteria is None:

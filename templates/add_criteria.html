@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='scripts/add_criteria.js') }}"></script>
+    </head>
+    <body>
+        <h1 id="competitionName">{{competition_name}}</h1>
+        <button type="button" onclick="history.back()">Back</button>
+        <form>
+            <label for="fname">Criteria Name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+            <button type="button" onclick="addCriteriaPressed()">Add Criteria</button>
+        </form>
+        <ul id="criteria_names">
+            {% for name in criteria%}
+            <li>{{name}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
