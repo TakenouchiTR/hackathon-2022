@@ -8,7 +8,7 @@ from judge import Judge
 app = Flask(__name__)
 
 competitions = {"ScienceFair": Competition("ScienceFair")}
-competitions["ScienceFair"].students.append(Student("Shawn", "sdfsdf"))
+competitions["ScienceFair"].students.append(Student("Shawn", "Science"))
 competitions["ScienceFair"].students.append(Student("Garrett", "cars"))
 competitions["ScienceFair"].categories.append("Originality")
 competitions["ScienceFair"].categories.append("Presentation")
@@ -33,12 +33,26 @@ def get_judges(competition_name):
     judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
     return render_template("add_judge.html", judge_names=judge_names, competition_name=competition_name)
 
+
 @app.route("/app/<competition_name>/students", methods=["GET"])
-def get_students_page(competition_name):
+def add_students_page(competition_name):
+    student_names = list(map(lambda student: student.name, competitions[competition_name].students))
+    return render_template("add_student.html", student_names=student_names, competition_name=competition_name)
+
+
+@app.route("/app/<competition_name>/scores", methods=["GET"])
+def get_score_page(competition_name):
     judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
     student_names = list(map(lambda student: student.name, competitions[competition_name].students))
     categories = competitions[competition_name].categories
     return render_template("student_scores.html", judges=judge_names, categories=categories, student_names=student_names)
+
+@app.route("/app/<competition_name>/judging", methods=["GET"])
+def get_students_page(competition_name):
+    judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
+    student_names = list(map(lambda student: student.name, competitions[competition_name].students))
+    categories = competitions[competition_name].categories
+    return render_template("judging_page.html", judge_names=judge_names, categories=categories, student_names=student_names)
 
 @app.route("/api/competition", methods=["GET"])
 def get_competition():

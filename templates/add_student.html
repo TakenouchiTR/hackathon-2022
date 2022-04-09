@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='scripts/add_student.js') }}"></script>
+    </head>
+    <body>
+        <h1 id="competitionName">{{competition_name}}</h1>
+        <button type="button" onclick="history.back()">Back</button>
+        <form>
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="lname">
+            <button type="button" onclick="addStudentPressed()">Add Student</button>
+        </form>
+        <ul judge_names="student_names" id="student_names">
+            {% for name in student_names%}
+            <li>{{name}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

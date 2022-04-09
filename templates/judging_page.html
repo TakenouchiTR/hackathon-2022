@@ -5,6 +5,13 @@
     </head>
     <body>
         <button type="button" onclick="history.back()">Back</button>
+        Please select a judge
+        <select name="judge_names" id="judge_names">
+           {% for item in judge_names %}
+                <option value = {{item}}>{{item}}</option>
+           {% endfor %}
+        </select>
+
         Please select a student
         <select name="student_names" id="student_names">
            {% for item in student_names %}

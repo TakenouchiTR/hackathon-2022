@@ -9,5 +9,15 @@ function onEditJudgeClick(appName) {
 
 function onStudentScoresClick() {
     competitionName = document.getElementById('competitionName').innerHTML;
+    window.location.href = competitionName + "/scores";
+}
+
+function onJudgingPageClick() {
+    competitionName = document.getElementById('competitionName').innerHTML;
+    window.location.href = competitionName + "/judging";
+}
+
+function onAddStudentClick() {
+    competitionName = document.getElementById('competitionName').innerHTML;
     window.location.href = competitionName + "/students";
 }
