@@ -30,6 +30,7 @@ def main_app(competition_name):
 
 @app.route("/app/<competition_name>/judges", methods=["GET"])
 def get_judges(competition_name):
+    print(competitions[competition_name].judges)
     judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
     return render_template("add_judge.html", judge_names=judge_names, competition_name=competition_name)
 
