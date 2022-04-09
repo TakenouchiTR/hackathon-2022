@@ -3,7 +3,7 @@ function addJudgePressed() {
     let lastName = document.getElementById("lname").value;
     let name = firstName + " " + lastName;
     let competitionName = document.getElementById("competitionName").innerHTML;
-    let data = {name: competitionName, judge_name: name}
+    let body = {name: competitionName, judge_name: name}
 
     fetch("../../../api/competition/judge/",{
         method: 'PUT',
@@ -11,6 +11,16 @@ function addJudgePressed() {
         'Content-Type':'application/json'
         },
         body: JSON.stringify({name: competitionName, judge_name: name})
-    }).then(response => response.json(data))
-        .then(data => console.log(data));
+    })
+    .then(response => response.json(body))
+    .then(data => {
+        console.log(data);
+        if (data.success_code === 0)
+        {
+            let li = document.createElement("li");
+            li.innerHTML = name;
+            let judgeList = document.getElementById("judge_names");
+            judgeList.appendChild(li);
+        }
+    });
 }
