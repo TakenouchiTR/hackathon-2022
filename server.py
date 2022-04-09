@@ -4,12 +4,17 @@ from competiton import Competition
 
 app = Flask(__name__)
 
-competitions = {}
+competitions = {"name": Competition("name")}
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
 
+@app.route("/api/competition/<name>", methods=["GET"])
+def get_competition(name):
+    if name not in competitions:
+        return jsonify({"success_code": 2, "error_message": "Competition not found"})
+    return jsonify(competitions[name].to_dict())
 
 @app.route("/api/competition/<name>", methods=["PUT"])
 def create_competition(name):

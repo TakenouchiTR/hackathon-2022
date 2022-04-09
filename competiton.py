@@ -11,4 +11,13 @@ class Competition:
         self.judges_per_student = 1
         self.judges = []
         self.students = []
-        self.catigories = []
+        self.categories = []
+    
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "judges_per_student": self.judges_per_student,
+            "judges": self.judges,
+            "students": self.students,
+            "categories": self.categories
+        }
