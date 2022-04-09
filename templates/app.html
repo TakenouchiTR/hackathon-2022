@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
         <script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
     </head>
     <body>
@@ -9,5 +10,6 @@
         <button>Edit Students</button>
         <button>Add Scores</button>
         <button>Edit Grading Criteria</button>
+        <button onclick="onStudentScoresClick()">View Scores</button>
     </body>
 </html>
