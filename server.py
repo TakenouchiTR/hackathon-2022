@@ -44,7 +44,7 @@ def get_competition():
 
 @app.route("/api/competition/", methods=["PUT"])
 def create_competition():
-    name = request.get_json()("name")
+    name = request.get_json()["name"]
     if name is None:
         return jsonify({"success_code": 1, "error_message": "must provide name."})
     if name in competitions:
@@ -55,7 +55,7 @@ def create_competition():
 
 @app.route("/api/competition/", methods=["DELETE"])
 def delete_competition():
-    name = request.get_json()("name")
+    name = request.get_json()["name"]
     if name is None:
         return jsonify({"success_code": 1, "error_message": "name must provide name."})
     if name not in competitions:
@@ -65,9 +65,9 @@ def delete_competition():
 
 @app.route("/api/competition/", methods=["POST"])
 def update_competition():
-    name = request.get_json()("name")
-    new_name = request.get_json()("new_name")
-    judges_per_student = request.get_json()("judges_per_student")
+    name = request.get_json()["name"]
+    new_name = request.get_json()["new_name"]
+    judges_per_student = request.get_json()["judges_per_student"]
 
     if judges_per_student is not None:
         if not str.isnumeric(judges_per_student):
@@ -99,11 +99,11 @@ def update_competition():
 
 @app.route("/api/competition/judge/", methods=["PUT"])
 def create_judge():
-    name = request.get_json()("name")
+    name = request.get_json()["name"]
     if name is None:
         return jsonify({"success_code": 1, "error_message": "must provide name."})
 
-    judge_name = request.get_json()("judge_name")
+    judge_name = request.get_json()["judge_name"]
     if judge_name is None:
         return jsonify({"success_code": 1, "error_message": "judge's name can not be empty."})
     competitions[name].judges.append(Judge(judge_name))
@@ -133,9 +133,9 @@ def get_judge():
 
 @app.route("/api/competition/judge/", methods=["POST"])
 def update_judge():
-    name = request.get_json()("name")
-    judge_index = request.get_json()("judge")
-    student_index = request.get_json()("student")
+    name = request.get_json()["name"]
+    judge_index = request.get_json()["judge"]
+    student_index = request.get_json()["student"]
 
     if name is None:
         return jsonify({"success_code": 1, "error_message": "must provide name."})
@@ -178,8 +178,8 @@ def get_criteria():
 
 @app.route("/api/competition/criteria/", methods=["POST"])
 def add_criteria():
-    name = request.get_json()("name")
-    criteria = request.get_json()("criteria")
+    name = request.get_json()["name"]
+    criteria = request.get_json()["criteria"]
     if name is None:
         return jsonify({"success_code": 1, "error_message": "name must be provided."})
     if criteria is None:
@@ -231,9 +231,9 @@ def get_students():
 
 @app.route("/api/competition/student/", methods=["PUT"])
 def add_student():
-    name = request.get_json()("name")
-    student_name = request.get_json()("student_name")
-    topic = request.get_json()("topic")
+    name = request.get_json()["name"]
+    student_name = request.get_json()["student_name"]
+    topic = request.get_json()["topic"]
 
     if name is None:
         return jsonify({"success_code": 1, "error_message": "name must be provided."})
@@ -253,10 +253,10 @@ def add_student():
 
 @app.route("/api/competition/student/", methods=["POST"])
 def update_student():
-    name = request.get_json()("name")
-    student_index = request.get_json()("student")
-    category = request.get_json()("category")
-    score = request.get_json()("score")
+    name = request.get_json()["name"]
+    student_index = request.get_json()["student"]
+    category = request.get_json()["category"]
+    score = request.get_json()["score"]
 
     if name is None:
         return jsonify({"success_code": 1, "error_message": "name must be provided."})
