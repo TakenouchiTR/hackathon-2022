@@ -7,14 +7,14 @@ from judge import Judge
 
 app = Flask(__name__)
 
-competitions = {"Science Fair": Competition("Science Fair")}
-competitions["Science Fair"].students.append(Student("Shawn", "Science"))
-competitions["Science Fair"].students.append(Student("Garrett", "cars"))
-competitions["Science Fair"].categories.append("Originality")
-competitions["Science Fair"].categories.append("Presentation")
-competitions["Science Fair"].categories.append("Research")
-competitions["Science Fair"].judges.append(Judge("Alexander"))
-competitions["Science Fair"].judges.append(Judge("Alex"))
+competitions = {"ScienceFair": Competition("ScienceFair")}
+competitions["ScienceFair"].students.append(Student("Shawn", "sdfsdf"))
+competitions["ScienceFair"].students.append(Student("Garrett", "cars"))
+competitions["ScienceFair"].categories.append("Originality")
+competitions["ScienceFair"].categories.append("Presentation")
+competitions["ScienceFair"].categories.append("Research")
+competitions["ScienceFair"].judges.append(Judge("Alexander"))
+competitions["ScienceFair"].judges.append(Judge("Alex"))
 
 @app.route("/")
 def index():
@@ -30,7 +30,6 @@ def main_app(competition_name):
 
 @app.route("/app/<competition_name>/judges", methods=["GET"])
 def get_judges(competition_name):
-    print(competitions[competition_name].judges)
     judge_names = list(map(lambda judge: judge.name, competitions[competition_name].judges))
     return render_template("add_judge.html", judge_names=judge_names, competition_name=competition_name)
 
