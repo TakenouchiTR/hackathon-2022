@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 
 from competiton import Competition
+from student import Student
 
 app = Flask(__name__)
 
@@ -98,4 +99,62 @@ def add_criteria():
     if criteria in competition.categories:
         return jsonify({"success_code": 1, "error_message": "criteria already exsists."})
     competition.categories.append(criteria)
+    for student in competition.students:
+        student.scores[criteria] = 0
+    return jsonify({"success_code": 0})
+
+@app.route("/api/competition/student/", methods=["GET"])
+def get_students():
+    name = request.args.get('name')
+    judge = request.args.get('judge')
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must be provided."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    if judge is not None:
+        if not str.isnumeric(judge):
+            return jsonify({"success_code": 1, "error_message": "judge must be a number."})
+        judge = int(judge)
+        if judge < 0 or judge >= len(competitions[name].judges):
+            return jsonify({"success_code": 1, "error_message": "judge must be between 0 and number of judges."})
+    
+    competition = competitions[name]
+    if judge is None:
+        return jsonify(
+            list(
+                map(
+                    lambda student: student.to_dict(), 
+                    competition.students
+                )
+            )
+        )
+    return jsonify(
+        list(
+            map(
+                lambda student: student.to_dict(), 
+                filter(lambda student: student in competition.judges[judge].students)
+            )
+        )
+    )
+
+@app.route("/api/competition/student/", methods=["POST"])
+def add_student():
+    name = request.form.get("name")
+    student_name = request.form.get("student_name")
+    topic = request.form.get("topic")
+
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must be provided."})
+    if student_name is None:
+        return jsonify({"success_code": 1, "error_message": "student must be provided."})
+    if topic is None:
+        return jsonify({"success_code": 1, "error_message": "topic must be provided."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    competition = competitions[name]
+
+    student = Student(student_name, topic)
+    competition.students.append(student)
+    for criteria in competition.categories:
+        competition.students[-1].scores[criteria] = 0
     return jsonify({"success_code": 0})
