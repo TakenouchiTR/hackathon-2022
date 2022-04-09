@@ -7,13 +7,14 @@ from judge import Judge
 
 app = Flask(__name__)
 
-competitions = {"name": Competition("name")}
-competitions["name"].students.append(Student("shoon", "science"))
-competitions["name"].students.append(Student("garrett", "cars"))
-competitions["name"].categories.append("stuff")
-competitions["name"].categories.append("things")
-competitions["name"].judges.append(Judge("judge"))
-competitions["name"].judges.append(Judge("a guy"))
+competitions = {"Science Fair": Competition("Science Fair")}
+competitions["Science Fair"].students.append(Student("Shawn", "Science"))
+competitions["Science Fair"].students.append(Student("Garrett", "cars"))
+competitions["Science Fair"].categories.append("Originality")
+competitions["Science Fair"].categories.append("Presentation")
+competitions["Science Fair"].categories.append("Research")
+competitions["Science Fair"].judges.append(Judge("Alexander"))
+competitions["Science Fair"].judges.append(Judge("Alex"))
 
 @app.route("/")
 def index():
