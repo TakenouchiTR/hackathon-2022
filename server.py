@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 from competiton import Competition
 
@@ -10,8 +10,11 @@ competitions = {"name": Competition("name")}
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/api/competition/<name>", methods=["GET"])
-def get_competition(name):
+@app.route("/api/competition", methods=["GET"])
+def get_competition():
+    name = request.args.get('name')
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "must provide name."})
     if name not in competitions:
         return jsonify({"success_code": 2, "error_message": "Competition not found"})
     return jsonify(competitions[name].to_dict())
@@ -19,30 +22,54 @@ def get_competition(name):
 @app.route("/api/competition/", methods=["PUT"])
 def create_competition():
     name = request.form.get("name")
-    if name is not None:
+    if name is None:
         return jsonify({"success_code": 1, "error_message": "must provide name."})
     if name in competitions:
         return jsonify({"success_code": 1, "error_message": "name already exsists."})
     competitions[name] = Competition(name)
+    print(competitions.keys())
     return jsonify({"success_code": 0})
 
 @app.route("/api/competition/", methods=["DELETE"])
 def delete_competition():
     name = request.form.get("name")
     if name is not None:
-        return jsonify({"success_code": 1, "error_message": "must provide name."})
+        return jsonify({"success_code": 1, "error_message": "name must provide name."})
     if name not in competitions:
         return jsonify({"success_code": 1, "error_message": "competition does not exsist."})
     competitions.pop(name)
     return jsonify({"success_code": 0})
 
-@app.route("/api/competion/", methods=["POST"])
+@app.route("/api/competition/", methods=["POST"])
 def update_competition():
     name = request.form.get("name")
     new_name = request.form.get("new_name")
-    number_of_judges = request.form.get("number_of_judges")
-    if name in competitions:
-        return jsonify({"success_code": 1, "error_message": "competition with name already exsists."})
-    if number_of_judges < 0:
+    judges_per_student = request.form.get("judges_per_student")
+
+    if judges_per_student is not None:
+        if not str.isnumeric(judges_per_student):
+            return jsonify({"success_code": 1, "error_message": "judges_per_student must be a number."})
+        judges_per_student = int(judges_per_student)
+
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must provide name."})
+    if new_name is None and judges_per_student is None:
+        return jsonify({"success_code": 1, "error_message": "must provide new_name or number_of_judges."})
+    
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    if new_name is not None and new_name in competitions:
+        return jsonify({"success_code": 1, "error_message": "new_name already exsists."})
+    if new_name is not None and new_name == "":
+        return jsonify({"success_code": 1, "error_message": "new_name must not be empty."})
+    if judges_per_student is not None and judges_per_student < 0:
         return jsonify({"success_code": 1, "error_message": "can not have a negative number of judges."})
-    competitions[name]
+    
+    competition = competitions[name]
+    if new_name is not None:
+        competition.name = new_name
+        competitions.pop(name)
+        competitions[new_name] = competition
+    if judges_per_student is not None:
+        competition.judges_per_student = judges_per_student
+    return jsonify({"success_code": 0})
