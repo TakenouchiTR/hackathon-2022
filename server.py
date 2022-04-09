@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 from competiton import Competition
 
@@ -8,7 +8,7 @@ competitions = {"name": Competition("name")}
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return render_template("index.html", competition_names=competitions.keys())
 
 @app.route("/api/competition/<name>", methods=["GET"])
 def get_competition(name):
