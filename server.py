@@ -10,6 +10,9 @@ competitions = {"name": Competition("name")}
 competitions["name"].students.append(Student("shoon", "science"))
 competitions["name"].students.append(Student("garrett", "cars"))
 competitions["name"].categories.append("stuff")
+competitions["name"].categories.append("things")
+competitions["name"].judges.append("judge")
+competitions["name"].judges.append("a guy")
 
 @app.route("/")
 def index():

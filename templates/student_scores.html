@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        Please select a student
+        <select name="student_names" id="student_names">
+           {% for item in student_names %}
+                <option value = {{item}}>{{item}}</option>
+           {% endfor %}
+        </select>
+        <table>
+            <tr>
+                <th></th>
+                {% for category in categories%}
+                    <th>{{category}}</th>
+                {% endfor %}
+                <th>Average</th>
+            </tr>
+            {% for judge in judges %}
+            <tr>
+                <td>
+                    {{judge}}
+                </td>
+                {% for category in categories %}
+                <td>
+                    <select name="category_score" id="category_score">
+                        <option value = 1>1</option>
+                        <option value = 2>2</option>
+                        <option value = 3>3</option>
+                        <option value = 4>4</option>
+                        <option value = 5>5</option>
+                    </select>
+                </td>
+                {% endfor %}
+                <td></td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td>Average</td>
+
+                {% for category in categories %}
+                <td id="cat{{loop.index}}"></td>
+                {% endfor %}
+
+                <td></td>
+            </tr>
+        </table>
+    </body>
+</html>
