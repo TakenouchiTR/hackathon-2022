@@ -8,4 +8,7 @@ class Judge:
         self.students = []
 
     def to_dict(self):
-        return {"name": self.name}
+        return {
+            "name": self.name,
+            "students": self.students,
+        }

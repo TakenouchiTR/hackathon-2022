@@ -85,7 +85,6 @@ def update_competition():
         competition.judges_per_student = judges_per_student
     return jsonify({"success_code": 0})
 
-
 @app.route("/api/competition/judge/", methods=["PUT"])
 def create_judge():
     name = request.form.get("name")
@@ -96,19 +95,65 @@ def create_judge():
     if judge_name is None:
         return jsonify({"success_code": 1, "error_message": "judge's name can not be empty."})
     competitions[name].judges.append(Judge(judge_name))
+    return jsonify({"success_code": 0})
 
 @app.route("/api/competition/judge/", methods=["GET"])
 def get_judge():
     name = request.args.get('name')
+    judge_index = request.args.get('judge')
     if name is None:
         return jsonify({"success_code": 1, "error_message": "must provide name."})
     if name not in competitions:
         return jsonify({"success_code": 2, "error_message": "Competition not found"})
+    if judge_index is not None:
+        if not str.isnumeric(judge_index):
+            return jsonify({"success_code": 1, "error_message": "judge must be a number."})
+        judge_index = int(judge_index)
+
+    competition = competitions[name]
+    if judge_index is None:
+        judges = []
+        for judge in competitions[name]:
+            judges.append(judge.to_dict())
+        return jsonify(judges)
     
-    judges = []
-    for judge in competitions[name]:
-        judges.append(judge.to_dict())
-    return jsonify(judges)
+    return jsonify(competition.judges[judge_index].to_dict())
+
+@app.route("/api/competition/judge/", methods=["POST"])
+def update_judge():
+    name = request.form.get("name")
+    judge_index = request.form.get("judge")
+    student_index = request.form.get("student")
+
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "must provide name."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    if judge_index is None:
+        return jsonify({"success_code": 1, "error_message": "must provide judge."})
+    if not str.isnumeric(judge_index):
+        return jsonify({"success_code": 1, "error_message": "judge must be a number."})
+    if student_index is None:
+        return jsonify({"success_code": 1, "error_message": "must provide student."})
+    if not str.isnumeric(student_index):
+        return jsonify({"success_code": 1, "error_message": "student must be a number."})
+
+    judge_index = int(judge_index)
+    student_index = int(student_index)
+    competition = competitions[name]
+
+    if judge_index < 0 or judge_index >= len(competition.judges):
+        return jsonify({"success_code": 1, "error_message": "judge does not exsist."})
+    if student_index < 0 or student_index >= len(competition.students):
+        return jsonify({"success_code": 1, "error_message": "student does not exsist."})
+
+    judge = competition.judges[judge_index]
+
+    if student_index in judge.students:
+        return jsonify({"success_code": 1, "error_message": "student already assigned to judge."})
+    
+    judge.students.append(student_index)
+    return jsonify({"success_code": 0})
 
 @app.route("/api/competition/criteria/", methods=["GET"])
 def get_criteria():
@@ -166,13 +211,13 @@ def get_students():
     return jsonify(
         list(
             map(
-                lambda student: student.to_dict(), 
-                filter(lambda student: student in competition.judges[judge].students)
+                lambda student_index: competition.students[student_index].to_dict(student_index), 
+                competition.judges[judge].students
             )
         )
     )
 
-@app.route("/api/competition/student/", methods=["POST"])
+@app.route("/api/competition/student/", methods=["PUT"])
 def add_student():
     name = request.form.get("name")
     student_name = request.form.get("student_name")
@@ -193,4 +238,39 @@ def add_student():
     for criteria in competition.categories:
         competition.students[-1].scores[criteria] = 0
     return jsonify({"success_code": 0})
+
+@app.route("/api/competition/student/", methods=["POST"])
+def update_student():
+    name = request.form.get("name")
+    student_index = request.form.get("student")
+    category = request.form.get("category")
+    score = request.form.get("score")
+
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must be provided."})
+    if student_index is None:
+        return jsonify({"success_code": 1, "error_message": "student must be provided."})
+    if category is None:
+        return jsonify({"success_code": 1, "error_message": "category must be provided."})
+    if score is None:
+        return jsonify({"success_code": 1, "error_message": "score must be provided."})
+    if not str.isnumeric(student_index):
+        return jsonify({"success_code": 1, "error_message": "student must be a number."})
+    if not str.isnumeric(score):
+        return jsonify({"success_code": 1, "error_message": "score must be a number."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    
+    competition = competitions[name]
+    student_index = int(student_index)
+    score = int(score)
+
+    if student_index < 0 or student_index >= len(competition.students):
+        return jsonify({"success_code": 1, "error_message": "student does not exsist."})
+    if category not in competition.categories:
+        return jsonify({"success_code": 1, "error_message": "category does not exsist."})
+    if score < 0 or score > 5:
+        return jsonify({"success_code": 1, "error_message": "score must be between 0 and 5."})
+    
+    competition.students[student_index].scores[category] = score
     return jsonify({"success_code": 0})
