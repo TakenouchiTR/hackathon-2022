@@ -6,8 +6,8 @@ class Competition:
     students: list
     catigories: list
 
-    def __init__(self) -> None:
-        self.name = ""
+    def __init__(self, name) -> None:
+        self.name = name
         self.judges_per_student = 1
         self.judges = []
         self.students = []
