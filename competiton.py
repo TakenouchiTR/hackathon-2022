@@ -14,10 +14,16 @@ class Competition:
         self.categories = []
     
     def to_dict(self) -> dict:
+        judges = []
+        for judge in self.judges:
+            judges.append(judge.to_dict())
+        students = []
+        for student in self.students:
+            students.append(student.to_dict())
         return {
             "name": self.name,
             "judges_per_student": self.judges_per_student,
-            "judges": self.judges,
-            "students": self.students,
+            "judges": judges,
+            "students": students,
             "categories": self.categories
         }

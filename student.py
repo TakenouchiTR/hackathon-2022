@@ -9,9 +9,10 @@ class Student:
         self.topic = topic
         self.scores = {}
     
-    def to_dict(self) -> dict:
+    def to_dict(self, index) -> dict:
         return {
             "name": self.name,
             "topic": self.topic,
-            "scores": self.scores
+            "scores": self.scores,
+            "index": index
         }
