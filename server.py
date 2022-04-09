@@ -73,3 +73,29 @@ def update_competition():
     if judges_per_student is not None:
         competition.judges_per_student = judges_per_student
     return jsonify({"success_code": 0})
+
+@app.route("/api/competition/criteria/", methods=["GET"])
+def get_criteria():
+    name = request.args.get('name')
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must provide name."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    return jsonify(competitions[name].categories)
+
+@app.route("/api/competition/criteria/", methods=["POST"])
+def add_criteria():
+    name = request.form.get("name")
+    criteria = request.form.get("criteria")
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "name must be provided."})
+    if criteria is None:
+        return jsonify({"success_code": 1, "error_message": "criteria must be provided."})
+    if name not in competitions:
+        return jsonify({"success_code": 1, "error_message": "competition not found."})
+    competition = competitions[name]
+
+    if criteria in competition.categories:
+        return jsonify({"success_code": 1, "error_message": "criteria already exsists."})
+    competition.categories.append(criteria)
+    return jsonify({"success_code": 0})
