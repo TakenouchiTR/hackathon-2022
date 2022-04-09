@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
         <script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
     </head>
     <body>
+
         <h1 id="competitionName">{{competition_name}}</h1>
         <button onclick="onEditJudgeClick()">Edit Judges</button>
         <button>Edit Students</button>
