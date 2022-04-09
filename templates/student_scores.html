@@ -2,9 +2,10 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('static', filename='scripts/student_scores.js') }}"></script>
     </head>
     <body>
-        <button type="button">Back</button>
+        <button type="button" onclick="history.back()">Back</button>
         Please select a student
         <select name="student_names" id="student_names">
            {% for item in student_names %}

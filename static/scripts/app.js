@@ -6,3 +6,8 @@ function onEditJudgeClick(appName) {
     competitionName = document.getElementById('competitionName').innerHTML;
     window.location.href = competitionName + "/judges";
 }
+
+function onStudentScoresClick() {
+    competitionName = document.getElementById('competitionName').innerHTML;
+    window.location.href = competitionName + "/students";
+}

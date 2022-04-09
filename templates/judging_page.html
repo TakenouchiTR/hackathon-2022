@@ -2,9 +2,9 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        <button type="button">Back</button>
     </head>
     <body>
+        <button type="button" onclick="history.back()">Back</button>
         Please select a student
         <select name="student_names" id="student_names">
            {% for item in student_names %}
