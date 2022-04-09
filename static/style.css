@@ -9,6 +9,8 @@ body {
     place-items: center;
     min-height: 50%;
     margin: 10%;
+    border-radius: 25px;
+    box-shadow: 5px 10px 5px lightslategray;
 }
 
 table, th, td {
