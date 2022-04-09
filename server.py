@@ -33,7 +33,7 @@ def create_competition():
 @app.route("/api/competition/", methods=["DELETE"])
 def delete_competition():
     name = request.form.get("name")
-    if name is not None:
+    if name is None:
         return jsonify({"success_code": 1, "error_message": "name must provide name."})
     if name not in competitions:
         return jsonify({"success_code": 1, "error_message": "competition does not exsist."})
