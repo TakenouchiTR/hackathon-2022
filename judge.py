@@ -6,3 +6,6 @@ class Judge:
     def __init__(self) -> None:
         self.name = ""
         self.students = []
+
+    def to_dict(self):
+        return {"name": self.name}

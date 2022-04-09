@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <form>
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="lname">
+            <input type="add judge" value="add_judge">
+        </form>
+        <ul judge_names="judge_names" id="judge_names">
+            {% for name in judge_names%}
+            <li>{{name}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

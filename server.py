@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template
 
 from competiton import Competition
 from student import Student
+from judge import Judge
 
 app = Flask(__name__)
 
@@ -74,6 +75,31 @@ def update_competition():
     if judges_per_student is not None:
         competition.judges_per_student = judges_per_student
     return jsonify({"success_code": 0})
+
+
+@app.route("/api/competition/judge/", methods=["PUT"])
+def create_judge():
+    name = request.form.get("name")
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "must provide name."})
+
+    judge_name = request.form.get("judge_name")
+    if judge_name is None:
+        return jsonify({"success_code": 1, "error_message": "judge's name can not be empty."})
+    competitions[name].judges.append(Judge(judge_name))
+
+@app.route("/api/competition/judge/", methods=["GET"])
+def get_judge():
+    name = request.args.get('name')
+    if name is None:
+        return jsonify({"success_code": 1, "error_message": "must provide name."})
+    if name not in competitions:
+        return jsonify({"success_code": 2, "error_message": "Competition not found"})
+    
+    judges = []
+    for judge in competitions[name]:
+        judges.append(judge.to_dict())
+    return jsonify(judges)
 
 @app.route("/api/competition/criteria/", methods=["GET"])
 def get_criteria():
@@ -157,4 +183,5 @@ def add_student():
     competition.students.append(student)
     for criteria in competition.categories:
         competition.students[-1].scores[criteria] = 0
+    return jsonify({"success_code": 0})
     return jsonify({"success_code": 0})
