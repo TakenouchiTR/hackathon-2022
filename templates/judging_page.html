@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        Please select a student
+        <select name="student_names" id="student_names">
+           {% for item in student_names %}
+                <option value = {{item}}>{{item}}</option>
+           {% endfor %}
+        </select>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Score</th>
+            </tr>
+            {% for category in categories %}
+            <tr>
+                <td>
+                    {{category}}
+                </td>
+                <td>
+                    <select name="category_score" id="category_score">
+                        <option value = 1>1</option>
+                        <option value = 2>2</option>
+                        <option value = 3>3</option>
+                        <option value = 4>4</option>
+                        <option value = 5>5</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
