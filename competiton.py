@@ -18,8 +18,8 @@ class Competition:
         for judge in self.judges:
             judges.append(judge.to_dict())
         students = []
-        for student in self.students:
-            students.append(student.to_dict())
+        for i in range(len(self.students)):
+            students.append(self.students[i].to_dict(i))
         return {
             "name": self.name,
             "judges_per_student": self.judges_per_student,

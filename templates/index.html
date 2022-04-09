@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
     </head>
     <body>
         Please select a competition
@@ -10,5 +10,8 @@
                 <option value = {{item}}>{{item}}</option>
            {% endfor %}
         </select>
+
+        <button onclick="onSelectClick()">Select</button>
+        <p>This is some text</p>
     </body>
 </html>
